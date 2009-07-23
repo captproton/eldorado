@@ -1,6 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
   
-  map.root :controller => 'home'
+  map.root :controller => 'flex'
   
   map.resources :articles
   map.resources :avatars, :member => {:select => :post, :deselect => :post}
@@ -20,6 +20,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users, :member => {:admin => :post, :ban => :get, :remove_ban => :post, :confirm_delete => :get}, 
                         :has_many => [:articles, :posts]
   
+  map.flex 'flex', :controller => 'flex', :action => 'index'
   map.search 'search', :controller => 'search', :action => 'index'
   map.refresh_chatters 'refresh_chatters', :controller => 'messages', :action => 'refresh_chatters'
   
