@@ -1,7 +1,7 @@
 # == Schema Information
 # Schema version: 76
 #
-# Table name: events
+# Table name: happenings
 #
 #  id          :integer(11)     not null, primary key
 #  title       :string(255)     

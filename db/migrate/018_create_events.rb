@@ -1,6 +1,6 @@
-class CreateEvents < ActiveRecord::Migration
+class CreateHappenings < ActiveRecord::Migration
   def self.up
-    create_table :events do |t|
+    create_table :happenings do |t|
       t.column :title, :string
       t.column :description, :text
       t.column :date, :datetime
@@ -8,6 +8,6 @@ class CreateEvents < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :events
+    drop_table :happenings
   end
 end

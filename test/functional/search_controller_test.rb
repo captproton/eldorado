@@ -15,7 +15,7 @@ class SearchControllerTest < ActionController::TestCase
     assert_response :success
     get :index, :type => 'avatars', :query => 'test'
     assert_response :success
-    get :index, :type => 'events', :query => 'test'
+    get :index, :type => 'happenings', :query => 'test'
     assert_response :success
     get :index, :type => 'files', :query => 'test'
     assert_response :success

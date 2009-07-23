@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(:version => 20090701005540) do
     t.string  "value"
   end
 
-  create_table "events", :force => true do |t|
+  create_table "happenings", :force => true do |t|
     t.string   "title"
     t.text     "description"
     t.datetime "date"
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(:version => 20090701005540) do
     t.datetime "updated_at"
   end
 
-  add_index "events", ["date"], :name => "index_events_on_date"
+  add_index "happenings", ["date"], :name => "index_happenings_on_date"
 
   create_table "forums", :force => true do |t|
     t.integer "category_id"

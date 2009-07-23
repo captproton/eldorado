@@ -1,6 +1,6 @@
-class RemoveEventsLocation < ActiveRecord::Migration
+class RemoveHappeningsLocation < ActiveRecord::Migration
   def self.up
-    remove_column :events, :location
+    remove_column :happenings, :location
   end
 
   def self.down

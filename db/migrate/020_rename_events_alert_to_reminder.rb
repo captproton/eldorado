@@ -1,9 +1,9 @@
-class RenameEventsAlertToReminder < ActiveRecord::Migration
+class RenameHappeningsAlertToReminder < ActiveRecord::Migration
   def self.up
-    rename_column :events, :alert, :reminder
+    rename_column :happenings, :alert, :reminder
   end
 
   def self.down
-    rename_column :events, :reminder, :alert
+    rename_column :happenings, :reminder, :alert
   end
 end

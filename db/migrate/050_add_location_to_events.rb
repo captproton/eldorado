@@ -1,9 +1,9 @@
-class AddLocationToEvents < ActiveRecord::Migration
+class AddLocationToHappenings < ActiveRecord::Migration
   def self.up
-    add_column :events, :location, :text
+    add_column :happenings, :location, :text
   end
 
   def self.down
-    remove_column :events, :location
+    remove_column :happenings, :location
   end
 end

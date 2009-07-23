@@ -1,45 +1,45 @@
-class EventsController < ApplicationController
+class HappeningsController < ApplicationController
   
   before_filter :require_login, :except => [:index, :show]
   before_filter :can_edit, :only => [:edit, :update, :destroy]
   
   def index
     @date = Time.parse("#{params[:date]} || Time.now.utc")
-    @events = Event.find(:all, :conditions => ['date between ? and ?', @date.strftime("%Y-%m") + '-01', @date.next_month.strftime("%Y-%m") + '-01'])
+    @happenings = Happening.find(:all, :conditions => ['date between ? and ?', @date.strftime("%Y-%m") + '-01', @date.next_month.strftime("%Y-%m") + '-01'])
   end
 
   def show
-    @event = Event.find(params[:id])
+    @happening = Happening.find(params[:id])
   end
 
   def new
   end
 
   def create
-    @event = current_user.events.build(params[:event])
-    if @event.save
-      redirect_to @event and return true
+    @happening = current_user.happenings.build(params[:happening])
+    if @happening.save
+      redirect_to @happening and return true
     else
       render :action => "new"
     end
   end
 
   def edit
-    @event = Event.find(params[:id])
+    @happening = Happening.find(params[:id])
   end
 
   def update
-    @event = Event.find(params[:id])
-    if @event.update_attributes(params[:event])
-      redirect_to @event
+    @happening = Happening.find(params[:id])
+    if @happening.update_attributes(params[:happening])
+      redirect_to @happening
     else
       render :action => "edit"
     end
   end
 
   def destroy
-    @event = Event.find(params[:id])
-    @event.destroy
-    redirect_to events_path
+    @happening = Happening.find(params[:id])
+    @happening.destroy
+    redirect_to happenings_path
   end
 end

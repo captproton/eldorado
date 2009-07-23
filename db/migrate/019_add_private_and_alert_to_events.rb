@@ -1,7 +1,7 @@
-class AddPrivateAndAlertToEvents < ActiveRecord::Migration
+class AddPrivateAndAlertToHappenings < ActiveRecord::Migration
   def self.up
-    add_column :events, :private, :boolean, :default => false
-    add_column :events, :alert, :boolean, :default => false
+    add_column :happenings, :private, :boolean, :default => false
+    add_column :happenings, :alert, :boolean, :default => false
   end
 
   def self.down

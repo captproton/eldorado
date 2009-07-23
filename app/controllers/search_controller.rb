@@ -9,9 +9,9 @@ class SearchController < ApplicationController
     elsif params[:type] == 'avatars'
       @avatars = Avatar.paginate(:page => params[:page], :include => :user, :order => 'avatars.created_at desc', :conditions => ['attachment_file_name LIKE ?', '%' + params[:query] + '%'])        
       render :template => 'avatars/index'
-    elsif params[:type] == 'events'
-      @events = Event.paginate(:page => params[:page], :include => :user, :order => 'events.created_at desc', :conditions => ['title LIKE ?', '%' + params[:query] + '%'])        
-      render :template => 'events/index'
+    elsif params[:type] == 'happenings'
+      @happenings = Happening.paginate(:page => params[:page], :include => :user, :order => 'happenings.created_at desc', :conditions => ['title LIKE ?', '%' + params[:query] + '%'])        
+      render :template => 'happenings/index'
     elsif params[:type] == 'files'
       @uploads = Upload.paginate(:page => params[:page], :include => :user, :order => 'uploads.created_at desc', :conditions => ['attachment_file_name LIKE ?', '%' + params[:query] + '%'])        
       render :template => 'uploads/index'

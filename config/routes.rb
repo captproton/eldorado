@@ -6,7 +6,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :avatars, :member => {:select => :post, :deselect => :post}
   map.resources :categories, :member => {:confirm_delete => :get}
   map.resources :comments
-  map.resources :events
+
   map.resources :forums, :member => {:confirm_delete => :get}
   map.resources :headers, :member => {:vote_up => :post, :vote_down => :post}
   map.resources :messages, :collection => {:more => :get, :refresh => :get}

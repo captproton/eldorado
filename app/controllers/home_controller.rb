@@ -5,7 +5,7 @@ class HomeController < ApplicationController
     @avatars = Avatar.find(:all, :limit => 3, :include => :user, :order => 'avatars.updated_at desc')
     @message = Message.last
     @chatters = User.chatting
-    @events = Event.find(:all, :conditions => ['date between ? and ?', @date.strftime("%Y-%m") + '-01', @date.next_month.strftime("%Y-%m") + '-01'])
+    @happenings = Happening.find(:all, :conditions => ['date between ? and ?', @date.strftime("%Y-%m") + '-01', @date.next_month.strftime("%Y-%m") + '-01'])
     @headers = Header.find(:all, :limit => 3, :include => :user, :order => 'headers.created_at desc')
     @topics = Topic.get(1, 20)
     @uploads = Upload.find(:all, :limit => 5, :include => :user, :order => 'uploads.updated_at desc')

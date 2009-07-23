@@ -1,4 +1,4 @@
-class Event < ActiveRecord::Base
+class Happening < ActiveRecord::Base
   
   attr_accessible :title, :description, :date, :reminder
   

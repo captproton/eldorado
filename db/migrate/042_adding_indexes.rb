@@ -7,7 +7,7 @@ class AddingIndexes < ActiveRecord::Migration
     add_index "users", ["online_at"], :name => "index_users_on_online_at"
     add_index "forums", ["category_id"], :name => "index_forums_on_category_id"    
     add_index "forums", ["category_id", "last_post_at"], :name => "index_forums_on_last_post_at"
-    add_index "events", ["date"], :name => "index_events_on_date"
+    add_index "happenings", ["date"], :name => "index_happenings_on_date"
   end
 
   def self.down
@@ -18,6 +18,6 @@ class AddingIndexes < ActiveRecord::Migration
     remove_index "users", :name => "index_users_on_online_at"
     remove_index "forums", :name => "index_forums_on_category_id"    
     remove_index "forums", :name => "index_forums_on_last_post_at"    
-    remove_index "events", :name => "index_events_on_date"    
+    remove_index "happenings", :name => "index_happenings_on_date"    
   end
 end

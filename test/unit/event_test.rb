@@ -1,10 +1,10 @@
 require 'test_helper'
 
-class EventTest < ActiveSupport::TestCase
+class HappeningTest < ActiveSupport::TestCase
   fixtures :all
   
   def test_to_s
-    e = Event.find(1)
+    e = Happening.find(1)
     assert_equal e.to_s, 'MyString'
   end
   

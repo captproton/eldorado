@@ -7,7 +7,7 @@
         cell_text = "<b>Today #{d.mday}</b>" 
       end
       cell_attrs = {:class => 'day'}
-      @events.each do |e|
+      @happenings.each do |e|
         if e.date.to_date == d
           cell_text << "<p>#{ link_to h(e.title), e }</p>"
           cell_attrs[:class] = 'specialDay'
@@ -28,13 +28,13 @@
       </tr>
     </thead>
     <tbody>
-      <% for event in @events %>
+      <% for happening in @happenings %>
         <tr>
-          <td class="tci"><%= icon_for(event) %></td>
+          <td class="tci"><%= icon_for(happening) %></td>
           <td class="tcl">
-            <%= link_to h(event), event %> by <%=h event.user %>
+            <%= link_to h(happening), happening %> by <%=h happening.user %>
           </td>
-          <td class="tcr"><%= time_stamp(event.date) %></td>
+          <td class="tcr"><%= time_stamp(happening.date) %></td>
         </tr>
       <% end %>
     </tbody>
