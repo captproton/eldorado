@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" label="Message"
+  xmlns:rx="org.restfulx.components.rx.*">
+  <mx:Script><![CDATA[
+    import org.restfulx.Rx;
+    import org.restfulx.utils.RxUtils;
+    import eldorado.models.Message;
+    import eldorado.models.User;
+
+    [Bindable]
+    private var message:Message = new Message();
+
+    private function newMessage():void {
+      message = new Message();
+      messagesList.selectedIndex = -1;
+    }
+
+    private function saveMessage():void {
+      updateModelProperties();
+      if (message.id) {
+        message.update({onSuccess: onMessageUpdate});
+      } else {
+        message.create({onSuccess: onMessageCreate});
+      }
+    }
+  
+    private function updateModelProperties():void {
+      message.body = bodyTextArea.text;
+  
+      message.user = User(userComboBox.selectedItem);
+    }
+   
+    private function destroyMessage():void {
+      message.destroy({onSuccess: onMessageDestroy});
+    }
+    
+    private function onMessageSelect():void {
+      message = RxUtils.clone(messagesList.selectedItem) as Message;
+    }
+    
+    private function onMessageCreate(result:Message):void {
+      message = new Message;
+    }
+    
+    private function onMessageUpdate(result:Message):void {
+      messagesList.selectedItem = result;
+      onMessageSelect();
+    }
+    
+    private function onMessageDestroy(result:Message):void {
+      onMessageCreate(result);
+    }    
+  ]]></mx:Script>
+  <mx:Panel id="messagesPanel"
+    title="Messages" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid"
+    borderThickness="1" backgroundColor="#EEEEEE" width="25%" height="100%">
+    <mx:List id="messagesList"
+      width="100%" height="100%"
+      dataProvider="{Rx.models.index(Message)}"
+      change="onMessageSelect()"/>
+    <mx:ControlBar width="100%">
+      <mx:Button label="New Message" width="100%" height="30"
+        click="newMessage()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+  <mx:Panel title="Edit Message" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid"
+    borderThickness="1" backgroundColor="#EEEEEE" width="75%" height="100%">
+    <mx:Form width="100%" height="100%">
+      <mx:FormItem label="Body" width="100%">
+        <mx:TextArea id="bodyTextArea" width="100%" height="200" text="{message.body}"/>
+      </mx:FormItem>
+      <mx:FormItem label="User" width="100%">
+        <mx:ComboBox id="userComboBox" width="200"
+          labelField="{User.LABEL}"
+          dataProvider="{Rx.models.index(User)}" prompt="User ..."
+          selectedItem="{message.user}"/>
+      </mx:FormItem>
+    </mx:Form>
+    <mx:ControlBar width="100%">
+      <mx:Button label="Save Message" width="50%" height="30"
+        click="saveMessage()"/>
+      <mx:Button label="Delete Message" width="50%" height="30"
+        enabled="{RxUtils.canDeleteModel(message)}"
+        click="destroyMessage()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+</mx:HBox>

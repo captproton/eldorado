@@ -1,4 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :viewings
+
+  map.resources :logged_exceptions
+
+  map.resources :configs
+
   
   map.root :controller => 'flex'
   

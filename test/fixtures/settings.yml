@@ -11,7 +11,7 @@
 #  theme         :string(255)     
 #  favicon       :string(255)     
 #  time_zone     :string(255)     default("UTC")
-#  private       :boolean(1)      
+#  hush_hush       :boolean(1)      
 #  login_message :string(255)     default("You are not logged in")
 #
 
@@ -20,11 +20,11 @@ one:
   id: 1
   title: 'El Dorado'
   time_zone: 'US/Central'
-  private: false
+  hush_hush: false
   login_message: 'You are not logged in'
 private:
   id: 2
   title: 'El Dorado'
   time_zone: 'US/Central'
-  private: true
+  hush_hush: true
   login_message: 'You are not logged in'

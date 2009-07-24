@@ -122,7 +122,7 @@ ActiveRecord::Schema.define(:version => 20090702030411) do
     t.string  "theme"
     t.string  "favicon"
     t.string  "time_zone"
-    t.boolean "private",           :default => false
+    t.boolean "hush_hush",           :default => false
     t.string  "login_message"
     t.string  "admin_only_create", :default => "",    :null => false
   end

@@ -15,7 +15,7 @@ module AuthenticationSystem
   end
 
   def locked_out?()
-    return true if @settings.private? && !logged_in?
+    return true if @settings.hush_hush? && !logged_in?
   end
   
   def logged_out?()
