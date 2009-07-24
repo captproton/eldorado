@@ -1,3 +1,10 @@
+config:
+ - associated_type: string
+ - namespace: string
+ - key: string
+ - value: string
+ - polymorphic: [associated]
+
 article:
  - title: string
  - body: text
@@ -10,7 +17,7 @@ avatar:
  - attachment_file_size: integer
  - attachment_field: [attachment]
  - attachment_remote_url: string
- - belongs_to: [user, current_user]
+ - belongs_to: [user]
 
 category:
  - name: string
@@ -23,20 +30,6 @@ comment:
  - polymorphic: [resource]
  - belongs_to: [user]
 
-config:
- - associated_type: string
- - namespace: string
- - key: string
- - value: string
- - polymorphic: [associated]
-
-event:
- - title: string
- - description: text
- - date: datetime
- - reminder: boolean
- - belongs_to: [user]
-
 forum:
  - name: string
  - description: text
@@ -45,6 +38,13 @@ forum:
  - position: integer
  - belongs_to: [category]
  - has_many: [topics]
+
+happening:
+ - title: string
+ - description: text
+ - date: datetime
+ - reminder: boolean
+ - belongs_to: [user]
 
 header:
  - description: text
@@ -109,7 +109,7 @@ topic:
  - last_post_by: integer
  - locked: boolean
  - sticky: boolean
- - belongs_to: [user, last_post, forum]
+ - belongs_to: [user, forum]
  - has_many: [posts, subscriptions, viewings]
 
 upload:
@@ -139,7 +139,7 @@ user:
  - logged_out: boolean
  - articles_count: integer
  - all_viewed_at: datetime
- - has_many: [articles, avatars, comments, events, headers, messages, posts, subscriptions, themes, topics, uploads, viewings]
+ - has_many: [articles, avatars, comments, happenings, headers, messages, posts, subscriptions, themes, topics, uploads, viewings]
 
 viewing:
  - belongs_to: [user, topic]
