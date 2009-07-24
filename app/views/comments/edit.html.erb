@@ -6,7 +6,7 @@
     <p><%= f.text_area :body, :rows => '5', :class => 'text-field' %></p>
     <p>
       <%= submit_tag "Edit Comment", :disable_with => "Edit Comment" %>&nbsp;
-      <%= link_to 'Cancel', @comment.resource %> &nbsp; 
+      <%= link_to 'Cancel', @comment.begetter %> &nbsp; 
       <%= link_to 'Delete', @comment, :confirm => 'Are you sure?', :method => :delete %>
     </p>
   <% end %>

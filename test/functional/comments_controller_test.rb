@@ -9,14 +9,14 @@ class CommentsControllerTest < ActionController::TestCase
   def test_should_create_comment_if_logged_in
     login_as :trevor
     assert_difference('Comment.count') do
-      post :create, :comment => { :resource_id => articles(:one).id, :resource_type => 'Article', :body => 'test' }
+      post :create, :comment => { :begetter_id => articles(:one).id, :begetter_type => 'Article', :body => 'test' }
     end
     assert_redirected_to article_path(articles(:one), :anchor => "c#{assigns(:comment).id.to_s}")    
   end
   
   def test_should_not_create_comment_if_not_logged_in
     assert_no_difference('Comment.count') do
-      post :create, :comment => { :resource_id => articles(:one).id, :resource_type => 'Article', :body => 'test' }
+      post :create, :comment => { :begetter_id => articles(:one).id, :begetter_type => 'Article', :body => 'test' }
     end
     assert_redirected_to login_path
   end

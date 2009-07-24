@@ -38,8 +38,8 @@ ActiveRecord::Schema.define(:version => 20090702030411) do
 
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
-    t.integer  "resource_id"
-    t.string   "resource_type"
+    t.integer  "begetter_id"
+    t.string   "begetter_type"
     t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"

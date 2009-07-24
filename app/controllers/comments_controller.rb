@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
   before_filter :can_edit, :only => [:edit, :update, :destroy]
   
   def index
-    @comments = Comment.paginate(:page => params[:page], :order => 'created_at desc', :include => [:resource, :user])
+    @comments = Comment.paginate(:page => params[:page], :order => 'created_at desc', :include => [:begetter, :user])
   end
   
   def show
@@ -22,16 +22,16 @@ class CommentsController < ApplicationController
   def create
     @comment = current_user.comments.build(params[:comment])
     if @comment.save
-      redirect_to polymorphic_path(@comment.resource) + '#c' + @comment.id.to_s
+      redirect_to polymorphic_path(@comment.begetter) + '#c' + @comment.id.to_s
     else
-      redirect_to polymorphic_path(@comment.resource) + '#comments'
+      redirect_to polymorphic_path(@comment.begetter) + '#comments'
     end
   end
   
   def update
     @comment = Comment.find(params[:id])
     if @comment.update_attributes(params[:comment])
-      redirect_to polymorphic_path(@comment.resource) + '#c' + @comment.id.to_s
+      redirect_to polymorphic_path(@comment.begetter) + '#c' + @comment.id.to_s
     else
       render :action => "edit"
     end
@@ -40,6 +40,6 @@ class CommentsController < ApplicationController
   def destroy
     @comment = Comment.find(params[:id])
     @comment.destroy
-    redirect_to polymorphic_path(@comment.resource) + '#comments'
+    redirect_to polymorphic_path(@comment.begetter) + '#comments'
   end
 end

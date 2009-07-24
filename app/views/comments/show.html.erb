@@ -1,6 +1,6 @@
 <div class="info-left">
-  <span class="title"><%= link_to h(@comment.resource), @comment.resource %></span>
-  <span class="detail">&laquo; <%= link_to 'Comments', polymorphic_path(@comment.resource) + '#comments' %></span>
+  <span class="title"><%= link_to h(@comment.begetter), @comment.begetter %></span>
+  <span class="detail">&laquo; <%= link_to 'Comments', polymorphic_path(@comment.begetter) + '#comments' %></span>
 </div>
 <div class="clear"> </div>
 
