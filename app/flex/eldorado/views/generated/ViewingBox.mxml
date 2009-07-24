@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" label="Viewing"
+  xmlns:rx="org.restfulx.components.rx.*">
+  <mx:Script><![CDATA[
+    import org.restfulx.Rx;
+    import org.restfulx.utils.RxUtils;
+    import eldorado.models.Viewing;
+    import eldorado.models.User;
+    import eldorado.models.Topic;
+
+    [Bindable]
+    private var viewing:Viewing = new Viewing();
+
+    private function newViewing():void {
+      viewing = new Viewing();
+      viewingsList.selectedIndex = -1;
+    }
+
+    private function saveViewing():void {
+      updateModelProperties();
+      if (viewing.id) {
+        viewing.update({onSuccess: onViewingUpdate});
+      } else {
+        viewing.create({onSuccess: onViewingCreate});
+      }
+    }
+  
+    private function updateModelProperties():void {
+  
+      viewing.user = User(userComboBox.selectedItem);
+      viewing.topic = Topic(topicComboBox.selectedItem);
+    }
+   
+    private function destroyViewing():void {
+      viewing.destroy({onSuccess: onViewingDestroy});
+    }
+    
+    private function onViewingSelect():void {
+      viewing = RxUtils.clone(viewingsList.selectedItem) as Viewing;
+    }
+    
+    private function onViewingCreate(result:Viewing):void {
+      viewing = new Viewing;
+    }
+    
+    private function onViewingUpdate(result:Viewing):void {
+      viewingsList.selectedItem = result;
+      onViewingSelect();
+    }
+    
+    private function onViewingDestroy(result:Viewing):void {
+      onViewingCreate(result);
+    }    
+  ]]></mx:Script>
+  <mx:Panel id="viewingsPanel"
+    title="Viewings" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid"
+    borderThickness="1" backgroundColor="#EEEEEE" width="25%" height="100%">
+    <mx:List id="viewingsList"
+      width="100%" height="100%"
+      dataProvider="{Rx.models.index(Viewing)}"
+      change="onViewingSelect()"/>
+    <mx:ControlBar width="100%">
+      <mx:Button label="New Viewing" width="100%" height="30"
+        click="newViewing()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+  <mx:Panel title="Edit Viewing" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid"
+    borderThickness="1" backgroundColor="#EEEEEE" width="75%" height="100%">
+    <mx:Form width="100%" height="100%">
+      <mx:FormItem label="User" width="100%">
+        <mx:ComboBox id="userComboBox" width="200"
+          labelField="{User.LABEL}"
+          dataProvider="{Rx.models.index(User)}" prompt="User ..."
+          selectedItem="{viewing.user}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Topic" width="100%">
+        <mx:ComboBox id="topicComboBox" width="200"
+          labelField="{Topic.LABEL}"
+          dataProvider="{Rx.models.index(Topic)}" prompt="Topic ..."
+          selectedItem="{viewing.topic}"/>
+      </mx:FormItem>
+    </mx:Form>
+    <mx:ControlBar width="100%">
+      <mx:Button label="Save Viewing" width="50%" height="30"
+        click="saveViewing()"/>
+      <mx:Button label="Delete Viewing" width="50%" height="30"
+        enabled="{RxUtils.canDeleteModel(viewing)}"
+        click="destroyViewing()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+</mx:HBox>

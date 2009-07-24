@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" label="Config"
+  xmlns:rx="org.restfulx.components.rx.*">
+  <mx:Script><![CDATA[
+    import org.restfulx.Rx;
+    import org.restfulx.utils.RxUtils;
+    import eldorado.models.Config;
+
+    [Bindable]
+    private var config:Config = new Config();
+
+    private function newConfig():void {
+      config = new Config();
+      configsList.selectedIndex = -1;
+    }
+
+    private function saveConfig():void {
+      updateModelProperties();
+      if (config.id) {
+        config.update({onSuccess: onConfigUpdate});
+      } else {
+        config.create({onSuccess: onConfigCreate});
+      }
+    }
+  
+    private function updateModelProperties():void {
+      config.associatedType = associatedTypeTextInput.text;
+      config.namespace = namespaceTextInput.text;
+      config.key = keyTextInput.text;
+      config.value = valueTextInput.text;
+  
+    }
+   
+    private function destroyConfig():void {
+      config.destroy({onSuccess: onConfigDestroy});
+    }
+    
+    private function onConfigSelect():void {
+      config = RxUtils.clone(configsList.selectedItem) as Config;
+    }
+    
+    private function onConfigCreate(result:Config):void {
+      config = new Config;
+    }
+    
+    private function onConfigUpdate(result:Config):void {
+      configsList.selectedItem = result;
+      onConfigSelect();
+    }
+    
+    private function onConfigDestroy(result:Config):void {
+      onConfigCreate(result);
+    }    
+  ]]></mx:Script>
+  <mx:Panel id="configsPanel"
+    title="Configs" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid"
+    borderThickness="1" backgroundColor="#EEEEEE" width="25%" height="100%">
+    <mx:List id="configsList"
+      width="100%" height="100%"
+      dataProvider="{Rx.models.index(Config)}"
+      change="onConfigSelect()"/>
+    <mx:ControlBar width="100%">
+      <mx:Button label="New Config" width="100%" height="30"
+        click="newConfig()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+  <mx:Panel title="Edit Config" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid"
+    borderThickness="1" backgroundColor="#EEEEEE" width="75%" height="100%">
+    <mx:Form width="100%" height="100%">
+      <mx:FormItem label="AssociatedType" width="100%">
+        <mx:TextInput id="associatedTypeTextInput" width="100%" text="{config.associatedType}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Namespace" width="100%">
+        <mx:TextInput id="namespaceTextInput" width="100%" text="{config.namespace}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Key" width="100%">
+        <mx:TextInput id="keyTextInput" width="100%" text="{config.key}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Value" width="100%">
+        <mx:TextInput id="valueTextInput" width="100%" text="{config.value}"/>
+      </mx:FormItem>
+    </mx:Form>
+    <mx:ControlBar width="100%">
+      <mx:Button label="Save Config" width="50%" height="30"
+        click="saveConfig()"/>
+      <mx:Button label="Delete Config" width="50%" height="30"
+        enabled="{RxUtils.canDeleteModel(config)}"
+        click="destroyConfig()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+</mx:HBox>
