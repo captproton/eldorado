@@ -10,7 +10,7 @@ package eldorado.controllers {
   public class ApplicationController extends RxApplicationController {
     private static var controller:ApplicationController;
     
-    public static var models:Array = [Article, Avatar, Category, Comment, Config, Forum, Happening, Header, LoggedException, Message, Post, Rank, Setting, Subscription, Theme, Topic, Upload, User, Viewing]; /* Models */
+    public static var models:Array = []; /* Models */
     
     public static var commands:Array = []; /* Commands */
     

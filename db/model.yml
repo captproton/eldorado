@@ -25,9 +25,9 @@ category:
  - has_many: [forums]
 
 comment:
- - resource_type: string
+ - begetter_type: string
  - body: text
- - polymorphic: [resource]
+ - polymorphic: [begetter]
  - belongs_to: [user]
 
 forum:
@@ -86,7 +86,7 @@ setting:
  - theme: string
  - favicon: string
  - time_zone: string
- - private: boolean
+ - hush_hush: boolean
  - login_message: string
  - admin_only_create: string
 
