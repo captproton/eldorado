@@ -32,7 +32,7 @@ defaults: &defaults
   layouts:
     default:  'default'                        # => default (more coming soon)
   ignored:                                     # => ignored tables/fields won't appear in model.yml
-    tables: [table1 table2]
+    tables: [configs posts viewings]
     fields: [field1 field2]
     
 # set up specific options for development environment
