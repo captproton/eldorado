@@ -45,8 +45,8 @@ class ForumsController < ApplicationController
     respond_to do |format|
       if @forum.save
         format.html { redirect_to(@forum) }
-        format.xml  { render :xml => @sprint, :status => :created, :location => @forum }
-        format.fxml  { render :fxml => @sprint }
+        format.xml  { render :xml => @forum, :status => :created, :location => @forum }
+        format.fxml  { render :fxml => @forum }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @forum.errors, :status => :unprocessable_entity }
