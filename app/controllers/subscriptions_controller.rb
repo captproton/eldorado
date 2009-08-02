@@ -12,10 +12,15 @@ class SubscriptionsController < ApplicationController
     render :text => text
   end
   
-  def destroy
-    subscription = current_user.subscriptions.find(params[:id])
-    subscription.destroy
-    redirect_to subscriptions_path
+  def destroy    
+    @subscription = current_user.subscriptions.find(params[:id])
+    @subscription.destroy
+ 
+    respond_to do |format|
+      format.html { redirect_to(subscriptions_path) }
+      format.xml  { head :ok }
+      format.fxml  { render :fxml => @subscription }
+    end
   end
   
 end
