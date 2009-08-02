@@ -6,15 +6,34 @@ class ArticlesController < ApplicationController
 
   def index
     @articles = @parent.get(params[:page])
+    
+    respond_to do |format|
+      format.html # index.html.erb
+      format.rss # index.html.erb
+      format.xml  { render :xml => @articles }
+      format.fxml  { render :fxml => @articles.to_fxml(:methods => [:attachment_url]) }
+    end
+    
   end
 
   def show
     @article = Article.find(params[:id])
     @comments = @article.comments(:include => :user)
+    
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @article }
+      format.fxml  { render :fxml => @article.to_fxml(:methods => [:attachment_url]) }
+    end
   end
 
   def new
     @article = Article.new
+    
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @article }
+    end
   end
 
   def edit
@@ -23,10 +42,18 @@ class ArticlesController < ApplicationController
 
   def create
     @article = current_user.articles.new(params[:article])
-    if @article.save
-      redirect_to(@article)
-    else
-      render :action => "new"
+    
+    respond_to do |format|
+      if @article.save
+        flash[:notice] = 'Address was successfully created.'
+        format.html { redirect_to(@article) }
+        format.xml  { render :xml => @article, :status => :created, :location => @article }
+        format.fxml  { render :fxml => @article.to_fxml(:methods => [:attachment_url]) }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @article.errors, :status => :unprocessable_entity }
+        format.fxml  { render :fxml => @article.errors }
+      end
     end
   end
 
