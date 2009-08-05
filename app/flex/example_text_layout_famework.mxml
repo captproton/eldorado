@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="*" layout="absolute" creationComplete="init()" horizontalScrollPolicy="off" viewSourceURL="srcview/index.html">
+<mx:Script>
+	<![CDATA[
+		import mx.controls.CheckBox;
+		import mx.collections.ArrayCollection;
+		import flashx.textLayout.formats.Direction;
+		import flashx.textLayout.elements.InlineGraphicElement;
+		import flashx.textLayout.events.StatusChangeEvent;
+		import flashx.textLayout.formats.ContainerFormat;
+		import flashx.textLayout.formats.ICharacterFormat;
+		import flashx.textLayout.formats.CharacterFormat;
+		import mx.events.SliderEvent;
+		import flashx.textLayout.edit.UndoManager;
+		import flashx.textLayout.edit.EditManager;
+		import flashx.textLayout.container.DisplayObjectContainerController;
+		import flashx.textLayout.conversion.TextFilter;
+		import flashx.textLayout.elements.TextFlow;
+		
+		
+		public var directions:ArrayCollection = new ArrayCollection(
+							[
+								{label:"Left-to-Right", data:Direction.LTR},
+								{label:"Right-to-Left", data:Direction.RTL}
+							]
+						);
+		
+		[Embed(source="air.png")]
+		[Bindable]
+		static public var imgClass:Class;
+            
+		private var _textContainer:Sprite = null;
+		
+		private static const textInput:XML = <TextFlow xmlns="http://ns.adobe.com/textLayout/2008">
+<div>
+	<p>
+		<img source="air.png"/>
+		<span>Flex is a highly productive, free open source framework for building and maintaining expressive web applications that deploy consistently on all major browsers, desktops, and operating systems. While Flex applications can be built using only the free Flex SDK, developers can use Adobe® Flex® Builder™ 3 software to dramatically accelerate development. Try Flex Builder 3 free for 60 days. Try ILOG Elixir to enhance data display in your Flex applications.</span>
+		<br/>
+	</p>
+	<p>
+		<span>Adobe® Flex® 3 是用于构建和维护在所有主要浏览器、桌面和操作系统一致地部署的极具表现力的 Web 应用程序的高效率的开放源码框架。 可以使用免费的 Flex SDK 构建 Flex 应用程序, 开发人员可以使用 Adobe Flex Builder™ 3 软件来显著促进开发。 60 天内免费试用 Flex Builder 3</span>
+		<br/>
+	</p>
+	<div direction="rtl">
+	<p>
+									<span>المستندات المطلوبة: 
+- نموذج طلب مستوفى الرسوم
+<br/>- صورة عن جواز الكفيل
+- صورة عن جواز المكفول
+- صورة شخصية ملونة للشخص المكفول
+- عقد الزواج مصدقاً من وزارة الخارجية أو إحدى سفارات دولة الإمارات - إذا كان المكفول الزوجة / الزوج
+- شهادة الميلاد مصدقة من وزارة الخارجية أو إحدى سفارات دولة الإمارات - إذا كان المكفول أحد الأبناء
+- وثيقة إثبات صلة القرابة مصدقة من سفارة دولة الإمارات – إذا لم يكن اسم المكفول مدرجاً في جواز سفر الكفيل
+- عقد عمل الكفيل مصدقاً إذا كان يعمل في شركة خاصة أو شهادة بالراتب إذا كان يعمل في دائرة حكومية
+- التأمين الصحي</span>
+		<br/>
+	</p>
+	<p>
+								<span>השרה ציפי לבני נולדה בישראל בשנת 1958, היא נשואה ואם לשני בנים.
+השרה שירתה כקצינה בצה"ל ומאוחר יותר עבדה ב"מוסד".
+השרה לבני למדה משפטים באוניברסיטת בר אילן והינה עורכת דין במקצועה. במשך עשר שנים עסקה השרה בעריכת דין במשרדה והתמחתה בין השאר, במשפט מסחרי, ציבורי ונדל"ן.
+מבין פעילותיה הציבוריות בין השנים 1996 – 1999, כיהנה השרה בתפקיד מנכ"לית רשות החברות הממשלתיות ובתפקיד זה הייתה אחראית על הפרטת החברות והמונופולים הממשלתיים.
+השרה לבני נבחרה לכנסת בשנת 1999, מטעם סיעת הליכוד. בכנסת ה-15 הייתה השרה חברה בוועדת חוקה, חוק ומשפט, במסגרת זו, הייתה אחראית על חקיקת  החוק למניעת הלבנת הון.  כמו כן הייתה השרה חברה בוועדה לקידום מעמד האישה.
+בשנת 2001 מונתה לשרה בממשלה ה- 29 וכיהנה בתפקידים הבאים: השרה לשיתוף פעולה אזורי,  שרה ללא תיק ושרת החקלאות.
+בשנת 2003 מונתה לשרה בממשלה ה-30, וכיהנה בתפקידים הבאים: השרה לקליטת העלייה, שרת הבינוי והשיכון, שרת המשפטים ושרת החוץ.
+בממשלה הנוכחית מכהנת השרה לבני כממלאת מקום ראש הממשלה ושרת החוץ.
+השרה לבני היא יו"ר מפלגת "קדימה" ונמנית עם מקימי, הוגי ומיישמי מטרותיה ומדיניותה. </span>
+	</p>
+	</div>
+</div>
+</TextFlow>;
+		
+		private var _textFlow:TextFlow;
+												
+		private function init():void {
+			_textContainer = new Sprite();
+			canvas.rawChildren.addChild(_textContainer);
+
+			_textFlow = TextFilter.importToFlow(textInput, TextFilter.TEXT_LAYOUT_FORMAT);
+			_textFlow.flowComposer.addController(new DisplayObjectContainerController(_textContainer, canvas.width-40, canvas.height));
+			_textFlow.addEventListener(StatusChangeEvent.INLINE_GRAPHIC_STATUS_CHANGED, picLoaded);
+			//adding Select/Edit/Copy/Paste/Undo features
+			_textFlow.interactionManager = new EditManager(new UndoManager());
+			// initialize with a selection before the first character
+			_textFlow.interactionManager.setSelection(0,0);
+			
+			_textFlow.flowComposer.updateAllContainers();
+		}
+				
+		private function picLoaded(event:StatusChangeEvent):void {
+			var image:InlineGraphicElement = event.element as InlineGraphicElement;
+			_textFlow.flowComposer.updateAllContainers();
+		}
+		
+		private function changeFontSize(event:SliderEvent):void {
+			var cf:CharacterFormat = new CharacterFormat(_textFlow.characterFormat);
+			cf.fontSize = event.value;
+			_textFlow.characterFormat = cf;
+			_textFlow.flowComposer.updateAllContainers();
+		}
+
+		private function changeNoColumns(event:SliderEvent):void {
+			var cf:ContainerFormat = new ContainerFormat(_textFlow.containerFormat);
+			cf.columnCount = event.value;
+			cf.columnGap = 15;
+			_textFlow.containerFormat = cf;
+			_textFlow.flowComposer.updateAllContainers();
+		}
+		
+		private function changeTextDirection(event:Event):void {
+			_textFlow.direction = (event.target as ComboBox).selectedItem.data;
+			_textFlow.flowComposer.updateAllContainers();
+		}
+
+	]]>
+</mx:Script>
+	<mx:VBox x="20" y="20">
+		<mx:Canvas id="canvas" width="600" height="400"  backgroundColor="#ffffff" verticalScrollPolicy="auto"/>
+		<mx:HBox width="100%">
+			<mx:HSlider labels="Font size:" minimum="10" maximum="22" snapInterval="1" change="changeFontSize(event)" enabled="true" />
+			<mx:HSlider labels="No of Columns:" minimum="1" maximum="2" snapInterval="1" change="changeNoColumns(event)" enabled="true" />
+			<mx:Label text="Text Direction:"/>
+			<mx:ComboBox change="changeTextDirection(event)" dataProvider="{directions}"/>
+		</mx:HBox>
+	</mx:VBox>
+
+</mx:Application>

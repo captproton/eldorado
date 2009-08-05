@@ -7,6 +7,12 @@ class UsersController < ApplicationController
   def index
     @users = User.paginate(:page => params[:page], :order => 'profile_updated_at desc')
     @users_count = User.count
+    
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @users }
+      format.fxml  { render :fxml => @users }
+    end
   end
 
   def show

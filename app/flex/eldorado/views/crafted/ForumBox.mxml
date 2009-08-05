@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" label="Forum"
+  xmlns:rx="org.restfulx.components.rx.*">
+  <mx:Script><![CDATA[
+    import org.restfulx.Rx;
+    import org.restfulx.utils.RxUtils;
+    import eldorado.models.Forum;
+    import eldorado.models.Category;
+
+    [Bindable]
+    private var forum:Forum = new Forum();
+
+    private function newForum():void {
+      forum = new Forum();
+      forumsList.selectedIndex = -1;
+    }
+
+    private function saveForum():void {
+      updateModelProperties();
+      if (forum.id) {
+        forum.update({onSuccess: onForumUpdate});
+      } else {
+        forum.create({onSuccess: onForumCreate});
+      }
+    }
+  
+    private function updateModelProperties():void {
+      forum.name = nameTextInput.text;
+      forum.description = descriptionTextArea.text;
+      forum.topicsCount = int(topicsCountTextInput.text);
+      forum.postsCount = int(postsCountTextInput.text);
+      forum.position = int(positionTextInput.text);
+  
+      forum.category = Category(categoryComboBox.selectedItem);
+    }
+   
+    private function destroyForum():void {
+      forum.destroy({onSuccess: onForumDestroy});
+    }
+    
+    private function onForumSelect():void {
+      forum = RxUtils.clone(forumsList.selectedItem) as Forum;
+    }
+    
+    private function onForumCreate(result:Forum):void {
+      forum = new Forum;
+    }
+    
+    private function onForumUpdate(result:Forum):void {
+      forumsList.selectedItem = result;
+      onForumSelect();
+    }
+    
+    private function onForumDestroy(result:Forum):void {
+      onForumCreate(result);
+    }    
+  ]]></mx:Script>
+  <mx:Panel id="forumsPanel"
+    title="Forums" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid"
+    borderThickness="1" backgroundColor="#EEEEEE" width="25%" height="100%">
+    <mx:List id="forumsList"
+      width="100%" height="100%"
+      dataProvider="{Rx.models.index(Forum)}"
+      change="onForumSelect()"/>
+    <mx:ControlBar width="100%">
+      <mx:Button label="New Forum" width="100%" height="30"
+        click="newForum()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+  <mx:Panel title="Edit Forum" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid"
+    borderThickness="1" backgroundColor="#EEEEEE" width="75%" height="100%">
+    <mx:Form width="100%" height="100%">
+      <mx:FormItem label="Name" width="100%">
+        <mx:TextInput id="nameTextInput" width="100%" text="{forum.name}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Description" width="100%">
+        <mx:TextArea id="descriptionTextArea" width="100%" height="200" text="{forum.description}"/>
+      </mx:FormItem>
+      <mx:FormItem label="TopicsCount" width="100%">
+        <mx:TextInput id="topicsCountTextInput" width="100%" text="{forum.topicsCount}"/>
+      </mx:FormItem>
+      <mx:FormItem label="PostsCount" width="100%">
+        <mx:TextInput id="postsCountTextInput" width="100%" text="{forum.postsCount}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Position" width="100%">
+        <mx:TextInput id="positionTextInput" width="100%" text="{forum.position}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Category" width="100%">
+        <mx:ComboBox id="categoryComboBox" width="200"
+          labelField="{Category.LABEL}"
+          dataProvider="{Rx.models.index(Category)}" prompt="Category ..."
+          selectedItem="{forum.category}"/>
+      </mx:FormItem>
+    </mx:Form>
+    <mx:ControlBar width="100%">
+      <mx:Button label="Save Forum" width="50%" height="30"
+        click="saveForum()"/>
+      <mx:Button label="Delete Forum" width="50%" height="30"
+        enabled="{RxUtils.canDeleteModel(forum)}"
+        click="destroyForum()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+</mx:HBox>
