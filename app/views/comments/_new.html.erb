@@ -2,8 +2,8 @@
     <% @comment = Comment.new unless @comment %>
     <% form_for @comment do |f| -%>
     <div class="box-comment" id="box-comments-new">
-      <%= f.hidden_field :resource_id, :value => @article.id %>
-      <%= f.hidden_field :resource_type, :value => @article.class %>
+      <%= f.hidden_field :begetter_id, :value => @article.id %>
+      <%= f.hidden_field :begetter_type, :value => @article.class %>
       <%= f.text_area :body, :value => @body, :rows => '5', :class => 'text-field' %>
       <p>
         <%= submit_tag "Post Comment", :disable_with => "Post Comment" %>&nbsp; 

@@ -6,7 +6,7 @@
 	<meta name="generator" content="http://almosteffortless.com/eldorado/" />
   <meta name="description" content="<%=h page_title -%>" />
   <title><%=h page_title -%></title>
-  <%= render :file => 'shared/rss' unless @settings.private? %>
+  <%= render :file => 'shared/rss' unless @settings.hush_hush? %>
   <%= javascript_include_tag "prototype", "audio_player", "calendar_date_select", "prototip", :cache => true %>
   <%= favicon_tag %>
   <%= header_css %>

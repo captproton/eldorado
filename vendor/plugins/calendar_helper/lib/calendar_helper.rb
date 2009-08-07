@@ -105,7 +105,7 @@ module CalendarHelper
     else
       colspan=7
     end
-    cal << %(<th colspan="7">#{render :partial => 'events/nav.html.erb'}</th>)
+    cal << %(<th colspan="7">#{render :partial => 'happenings/nav.html.erb'}</th>)
     cal << %(<th colspan="2">#{options[:next_month_text]}</th>) if options[:next_month_text]
     cal << %(</tr><tr class="#{options[:day_name_class]}">)
     day_names.each do |d|

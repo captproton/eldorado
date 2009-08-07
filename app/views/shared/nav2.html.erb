@@ -57,29 +57,29 @@
   <% end %>
 <% end %>
 
-<% if current_controller == 'events' and current_action == 'edit' %>
+<% if current_controller == 'happenings' and current_action == 'edit' %>
   <div class="info-left">
     <%= link_to 'Home', root_path %> &raquo; 
-    <%= link_to 'Events', events_path %> &raquo; 
-    <%= link_to h(@event), @event %> &raquo; Editing Event
+    <%= link_to 'Events', happenings_path %> &raquo; 
+    <%= link_to h(@happening), @happening %> &raquo; Editing Event
   </div>
 <% end %>
 
-<% if current_controller == 'events' and current_action == 'new' %>
+<% if current_controller == 'happenings' and current_action == 'new' %>
   <div class="info-left">
     <%= link_to 'Home', root_path %> &raquo; 
-    <%= link_to 'Events', events_path %> &raquo; New Event
+    <%= link_to 'Events', happenings_path %> &raquo; New Event
   </div>
 <% end %>
 
-<% if current_controller == 'events' and current_action == 'show' %>
+<% if current_controller == 'happenings' and current_action == 'show' %>
   <div class="info-left">
     <%= link_to 'Home', root_path %> &raquo; 
-    <%= link_to 'Events', events_path %> &raquo; <%=h @event %>
+    <%= link_to 'Events', happenings_path %> &raquo; <%=h @happening %>
   </div>
   <div class="info-right">
-    <% if can_edit?(@event) %>
-      <%= link_to 'Edit Event', edit_event_path %>
+    <% if can_edit?(@happening) %>
+      <%= link_to 'Edit Event', edit_happening_path %>
     <% end %>
   </div>
 <% end %>
@@ -168,7 +168,7 @@
 
 <% if current_controller == 'search' %>
   <div class="info-right" style="margin-top:5px;">
-    <%= will_paginate @events, :inner_window => 1, :outer_window => 0, :prev_label => '&laquo; Prev' unless @events.blank? %>
+    <%= will_paginate @happenings, :inner_window => 1, :outer_window => 0, :prev_label => '&laquo; Prev' unless @happenings.blank? %>
     <%= will_paginate @headers, :inner_window => 1, :outer_window => 0, :prev_label => '&laquo; Prev' unless @headers.blank? %>
     <%= will_paginate @messages, :inner_window => 1, :outer_window => 0, :prev_label => '&laquo; Prev' unless @messages.blank? %>
     <%= will_paginate @posts, :inner_window => 1, :outer_window => 0, :prev_label => '&laquo; Prev' unless @posts.blank? %>

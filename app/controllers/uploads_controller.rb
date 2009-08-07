@@ -17,21 +17,34 @@ class UploadsController < ApplicationController
 
   def create
     @upload = current_user.uploads.new(params[:upload])
-    if @upload.save
-      if CONFIG['s3']
-        flash[:notice] = "#{@upload.attachment.url.split('?').first}"
+    
+    respond_to do |format|
+      if @upload.save
+        # conditional flash msg that gives me the url of the newly uploaded file
+        if CONFIG['s3']
+          flash[:notice] = "#{@upload.attachment.url.split('?').first}"
+        else
+          flash[:notice] = "#{root_url.chop + @upload.attachment.url.split('?').first}"
+        end
+        format.html { redirect_to(files_path) }
+        format.xml  { render :xml => @upload, :status => :created, :location => @upload }
+        format.fxml  { render :fxml => @upload }
       else
-        flash[:notice] = "#{root_url.chop + @upload.attachment.url.split('?').first}"
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @upload.errors, :status => :unprocessable_entity }
+        format.fxml  { render :fxml => @upload.errors }
       end
-      redirect_to files_path
-    else
-      render :action => "new"
     end
   end
 
   def destroy
     @upload = Upload.find(params[:id])
     @upload.destroy
-    redirect_to files_path
+    
+    respond_to do |format|
+      format.html { redirect_to(files_path) }
+      format.xml  { head :ok }
+      format.fxml  { render :fxml => @upload }
+    end
   end
 end

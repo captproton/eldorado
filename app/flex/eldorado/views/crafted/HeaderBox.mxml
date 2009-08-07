@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" label="Header"
+  xmlns:rx="org.restfulx.components.rx.*">
+  <mx:Script><![CDATA[
+    import org.restfulx.Rx;
+    import org.restfulx.utils.RxUtils;
+    import eldorado.models.Header;
+    import eldorado.models.User;
+    import flash.net.FileReference;
+    import org.restfulx.utils.RxFileReference;
+
+    [Bindable]
+    private var header:Header = new Header();
+
+    [Bindable]
+    private var fileName:String = "None selected";
+    
+    private var file:RxFileReference;
+
+    private function newHeader():void {
+      header = new Header();
+      headersList.selectedIndex = -1;
+    }
+
+    private function saveHeader():void {
+      updateModelProperties();
+      if (header.id) {
+        header.update({onSuccess: onHeaderUpdate});
+      } else {
+        header.create({onSuccess: onHeaderCreate});
+      }
+    }
+  
+    private function updateModelProperties():void {
+      header.description = descriptionTextArea.text;
+      header.votes = int(votesTextInput.text);
+      header.attachmentFileName = attachmentFileNameTextInput.text;
+      header.attachmentContentType = attachmentContentTypeTextInput.text;
+      header.attachmentFileSize = int(attachmentFileSizeTextInput.text);
+      header.attachmentRemoteUrl = attachmentRemoteUrlTextInput.text;
+  
+      header.user = User(userComboBox.selectedItem);
+      header.attachment = file;
+    }
+   
+    private function destroyHeader():void {
+      header.destroy({onSuccess: onHeaderDestroy});
+    }
+    
+    private function onHeaderSelect():void {
+      header = RxUtils.clone(headersList.selectedItem) as Header;
+    }
+    
+    private function onHeaderCreate(result:Header):void {
+      header = new Header;
+    }
+    
+    private function onHeaderUpdate(result:Header):void {
+      headersList.selectedItem = result;
+      onHeaderSelect();
+    }
+    
+    private function onHeaderDestroy(result:Header):void {
+      onHeaderCreate(result);
+    }    
+
+    private function chooseFile():void {
+      file = new RxFileReference("attachment");
+      file.reference.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true);
+      file.reference.addEventListener(Event.SELECT, selectFile, false, 0, true);
+      file.reference.addEventListener(Event.CANCEL, cancelBrowse, false, 0, true);
+      file.reference.browse();
+    }
+    
+    private function selectFile(event:Event):void { 
+      fileSelected(event)
+    }
+    
+    private function cancelBrowse(event:Event):void {
+      file = null;
+    }
+    
+    private function fileSelected(event:Event):void {
+      fileName = FileReference(event.target).name;
+    }
+    
+    private function ioErrorHandler(event:Event):void {
+      fileChooser.errorString = "Failed to selected a file. Please try again.";
+    }
+  ]]></mx:Script>
+  <mx:Panel id="headersPanel"
+    title="Headers" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid"
+    borderThickness="1" backgroundColor="#EEEEEE" width="25%" height="100%">
+    <mx:List id="headersList"
+      width="100%" height="100%"
+      dataProvider="{Rx.models.index(Header)}"
+      change="onHeaderSelect()"/>
+    <mx:ControlBar width="100%">
+      <mx:Button label="New Header" width="100%" height="30"
+        click="newHeader()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+  <mx:Panel title="Edit Header" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid"
+    borderThickness="1" backgroundColor="#EEEEEE" width="75%" height="100%">
+    <mx:Form width="100%" height="100%">
+      <mx:FormItem label="Description" width="100%">
+        <mx:TextArea id="descriptionTextArea" width="100%" height="200" text="{header.description}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Votes" width="100%">
+        <mx:TextInput id="votesTextInput" width="100%" text="{header.votes}"/>
+      </mx:FormItem>
+      <mx:FormItem label="AttachmentFileName" width="100%">
+        <mx:TextInput id="attachmentFileNameTextInput" width="100%" text="{header.attachmentFileName}"/>
+      </mx:FormItem>
+      <mx:FormItem label="AttachmentContentType" width="100%">
+        <mx:TextInput id="attachmentContentTypeTextInput" width="100%" text="{header.attachmentContentType}"/>
+      </mx:FormItem>
+      <mx:FormItem label="AttachmentFileSize" width="100%">
+        <mx:TextInput id="attachmentFileSizeTextInput" width="100%" text="{header.attachmentFileSize}"/>
+      </mx:FormItem>
+      <mx:FormItem label="AttachmentRemoteUrl" width="100%">
+        <mx:TextInput id="attachmentRemoteUrlTextInput" width="100%" text="{header.attachmentRemoteUrl}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Attachment:" width="100%" id="fileChooser">
+        <mx:Button label="Browse…" id="fileBrowseButton" click="chooseFile()"/>
+        <mx:Label text="{fileName}" maxWidth="190"/>
+        <mx:Image source="{header.attachmentUrl}"/>
+      </mx:FormItem>
+      <mx:FormItem label="User" width="100%">
+        <mx:ComboBox id="userComboBox" width="200"
+          labelField="{User.LABEL}"
+          dataProvider="{Rx.models.index(User)}" prompt="User ..."
+          selectedItem="{header.user}"/>
+      </mx:FormItem>
+    </mx:Form>
+    <mx:ControlBar width="100%">
+      <mx:Button label="Save Header" width="50%" height="30"
+        click="saveHeader()"/>
+      <mx:Button label="Delete Header" width="50%" height="30"
+        enabled="{RxUtils.canDeleteModel(header)}"
+        click="destroyHeader()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+</mx:HBox>

@@ -6,16 +6,32 @@ class TopicsController < ApplicationController
   
   def index
     @topics = Topic.get(params[:page])
+    
+    respond_to do |format|
+      format.html # index.html.erb
+      format.rss # index.html.erb
+      format.xml  { render :xml => @topics }
+      format.fxml  { render :fxml => @topics }
+    end
   end
   
   def show
     @topic = Topic.find(params[:id], :include => :forum)
     @posts = @topic.posts.paginate(:page => params[:page], :include => :user)
-    redirect_to @topic if @posts.blank? # if params[:page] is too big, no posts will be found
-    @page = params[:page] ? params[:page] : 1
-    @padding = ((@page.to_i - 1) * 30) # to get post #s w/ pagination
-    @topic.viewed_by(current_user) if logged_in?
-    @topic.hit!
+    respond_to do |format|
+      format.html  {
+        redirect_to @topic if @posts.blank? # if params[:page] is too big, no posts will be found
+        @page = params[:page] ? params[:page] : 1
+        @padding = ((@page.to_i - 1) * 30) # to get post #s w/ pagination
+        @topic.viewed_by(current_user) if logged_in?
+        @topic.hit!
+        
+      }
+      format.xml  { render :xml => @topic }
+      format.fxml  { render :fxml => @topic }
+      
+    end
+    
   end
   
   def new
@@ -24,10 +40,18 @@ class TopicsController < ApplicationController
   def create
     @topic = current_user.topics.build(params[:topic])
     @post = @topic.posts.build(params[:topic]) ; @post.user = current_user
-    if @topic.save && @post.save
-      redirect_to @topic
-    else
-      render :action => 'new'
+    
+    respond_to do |format|
+      if @topic.save && @post.save
+        flash[:notice] = 'Address was successfully created.'
+        format.html { redirect_to(@topic) }
+        format.xml  { render :xml => @topic, :status => :created, :location => @topic }
+        format.fxml  { render :fxml => @topic }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @topic.errors, :status => :unprocessable_entity }
+        format.fxml  { render :fxml => @topic.errors }
+      end
     end
   end
   
@@ -37,17 +61,30 @@ class TopicsController < ApplicationController
   
   def update
     @topic = Topic.find(params[:id])
-    if @topic.update_attributes(params[:topic])
-      redirect_to @topic
-    else
-      render :action => "edit"
+
+   
+    respond_to do |format|
+      if @topic.update_attributes(params[:topic])
+        format.html { redirect_to(@topic) }
+        format.xml  { head :ok }
+        format.fxml  { render :fxml => @topic }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @topic.errors, :status => :unprocessable_entity }
+        format.fxml  { render :fxml => @topic.errors }
+      end
     end
   end
 
   def destroy
     @topic = Topic.find(params[:id])
     @topic.destroy
-    redirect_to topics_path
+    
+    respond_to do |format|
+      format.html { redirect_to(topics_path) }
+      format.xml  { head :ok }
+      format.fxml  { render :fxml => @topic }
+    end
   end
   
   def show_new

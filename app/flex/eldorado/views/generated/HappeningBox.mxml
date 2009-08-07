@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" label="Happening"
+  xmlns:rx="org.restfulx.components.rx.*">
+  <mx:Script><![CDATA[
+    import org.restfulx.Rx;
+    import org.restfulx.utils.RxUtils;
+    import eldorado.models.Happening;
+    import eldorado.models.User;
+
+    [Bindable]
+    private var happening:Happening = new Happening();
+
+    private function newHappening():void {
+      happening = new Happening();
+      happeningsList.selectedIndex = -1;
+    }
+
+    private function saveHappening():void {
+      updateModelProperties();
+      if (happening.id) {
+        happening.update({onSuccess: onHappeningUpdate});
+      } else {
+        happening.create({onSuccess: onHappeningCreate});
+      }
+    }
+  
+    private function updateModelProperties():void {
+      happening.title = titleTextInput.text;
+      happening.description = descriptionTextArea.text;
+      happening.date = dateDateTimeTextInput.date;
+      happening.reminder = reminderCheckBox.selected;
+  
+      happening.user = User(userComboBox.selectedItem);
+    }
+   
+    private function destroyHappening():void {
+      happening.destroy({onSuccess: onHappeningDestroy});
+    }
+    
+    private function onHappeningSelect():void {
+      happening = RxUtils.clone(happeningsList.selectedItem) as Happening;
+    }
+    
+    private function onHappeningCreate(result:Happening):void {
+      happening = new Happening;
+    }
+    
+    private function onHappeningUpdate(result:Happening):void {
+      happeningsList.selectedItem = result;
+      onHappeningSelect();
+    }
+    
+    private function onHappeningDestroy(result:Happening):void {
+      onHappeningCreate(result);
+    }    
+  ]]></mx:Script>
+  <mx:Panel id="happeningsPanel"
+    title="Happenings" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid"
+    borderThickness="1" backgroundColor="#EEEEEE" width="25%" height="100%">
+    <mx:List id="happeningsList"
+      width="100%" height="100%"
+      dataProvider="{Rx.models.index(Happening)}"
+      change="onHappeningSelect()"/>
+    <mx:ControlBar width="100%">
+      <mx:Button label="New Happening" width="100%" height="30"
+        click="newHappening()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+  <mx:Panel title="Edit Happening" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid"
+    borderThickness="1" backgroundColor="#EEEEEE" width="75%" height="100%">
+    <mx:Form width="100%" height="100%">
+      <mx:FormItem label="Title" width="100%">
+        <mx:TextInput id="titleTextInput" width="100%" text="{happening.title}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Description" width="100%">
+        <mx:TextArea id="descriptionTextArea" width="100%" height="200" text="{happening.description}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Date" width="100%">
+        <rx:DateTimeTextInput id="dateDateTimeTextInput" width="200" date="{happening.date}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Reminder" width="100%">
+        <mx:CheckBox id="reminderCheckBox" selected="{happening.reminder}"/>
+      </mx:FormItem>
+      <mx:FormItem label="User" width="100%">
+        <mx:ComboBox id="userComboBox" width="200"
+          labelField="{User.LABEL}"
+          dataProvider="{Rx.models.index(User)}" prompt="User ..."
+          selectedItem="{happening.user}"/>
+      </mx:FormItem>
+    </mx:Form>
+    <mx:ControlBar width="100%">
+      <mx:Button label="Save Happening" width="50%" height="30"
+        click="saveHappening()"/>
+      <mx:Button label="Delete Happening" width="50%" height="30"
+        enabled="{RxUtils.canDeleteModel(happening)}"
+        click="destroyHappening()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+</mx:HBox>

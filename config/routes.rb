@@ -1,12 +1,19 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :viewings
+
+  map.resources :logged_exceptions
+
+  map.resources :configs
+
   
-  map.root :controller => 'home'
+  map.root :controller => 'flex'
   
   map.resources :articles
   map.resources :avatars, :member => {:select => :post, :deselect => :post}
   map.resources :categories, :member => {:confirm_delete => :get}
   map.resources :comments
-  map.resources :events
+  map.resources :happenings
+
   map.resources :forums, :member => {:confirm_delete => :get}
   map.resources :headers, :member => {:vote_up => :post, :vote_down => :post}
   map.resources :messages, :collection => {:more => :get, :refresh => :get}
@@ -20,6 +27,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users, :member => {:admin => :post, :ban => :get, :remove_ban => :post, :confirm_delete => :get}, 
                         :has_many => [:articles, :posts]
   
+  map.flex 'flex', :controller => 'flex', :action => 'index'
   map.search 'search', :controller => 'search', :action => 'index'
   map.refresh_chatters 'refresh_chatters', :controller => 'messages', :action => 'refresh_chatters'
   
@@ -34,6 +42,7 @@ ActionController::Routing::Routes.draw do |map|
   map.files 'files', :controller => 'uploads', :action => 'index'
   map.forum_root 'forum', :controller => 'forums', :action => 'index'
   map.help 'help', :controller => 'home', :action => 'help'
+  map.home 'home', :controller => 'home', :action => 'index'
   
   map.exceptions 'logged_exceptions/:action/:id', :controller => 'logged_exceptions', :action => 'index', :id => nil
   

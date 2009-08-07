@@ -14,7 +14,7 @@
         <% elsif current_controller == 'articles' %><%= link_to 'Post a New Article', new_article_path %>
         <% elsif current_controller == 'avatars' %><%= link_to 'Upload a New Avatar', new_avatar_path %>
         <% elsif current_controller == 'categories' %><%= link_to 'Start a New Topic', new_topic_path %>
-        <% elsif current_controller == 'events' %><%= link_to 'Add a New Event', new_event_path %>
+        <% elsif current_controller == 'happenings' %><%= link_to 'Add a New Event', new_happening_path %>
         <% elsif current_controller == 'forums' %><%= link_to 'Start a New Topic', new_topic_path(:forum_id => params[:id]) %>
         <% elsif current_controller == 'headers' %><%= link_to 'Upload a New Header', new_header_path %>
         <% elsif current_controller == 'posts' %><%= link_to 'Start a New Topic', new_topic_path %>

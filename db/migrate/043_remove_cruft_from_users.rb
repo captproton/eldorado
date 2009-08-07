@@ -3,7 +3,7 @@ class RemoveCruftFromUsers < ActiveRecord::Migration
     remove_column :users, :updated_at
     remove_column :users, :topics_count
     remove_column :users, :headers_count
-    remove_column :users, :events_count
+    remove_column :users, :happenings_count
     remove_column :users, :uploads_count
     remove_column :users, :avatars_count
     remove_column :users, :themes_count
@@ -13,7 +13,7 @@ class RemoveCruftFromUsers < ActiveRecord::Migration
     add_column :users, :updated_at, :datetime
     add_column :users, :topics_count, :integer, :default => 0
     add_column :users, :headers_count, :integer, :default => 0
-    add_column :users, :events_count, :integer, :default => 0
+    add_column :users, :happenings_count, :integer, :default => 0
     add_column :users, :uploads_count, :integer, :default => 0
     add_column :users, :avatars_count, :integer, :default => 0
     add_column :users, :themes_count, :integer, :default => 0

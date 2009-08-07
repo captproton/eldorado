@@ -6,6 +6,14 @@ class AvatarsController < ApplicationController
   
   def index
     @avatars = Avatar.paginate(:page => params[:page], :order => 'updated_at desc')
+    
+    respond_to do |format|
+      format.html # index.html.erb
+      format.rss # index.html.erb
+      format.xml  { render :xml => @avatars }
+      format.fxml  { render :fxml => @avatars.to_fxml(:methods => [:attachment_url]) }
+    end
+    
   end
   
   def new
@@ -13,10 +21,17 @@ class AvatarsController < ApplicationController
   
   def create
     @avatar = current_user.avatars.build(params[:avatar])
-    if @avatar.save
-      redirect_to avatars_path
-    else
-      render :action => "new"
+   
+    respond_to do |format|
+      if @avatar.save
+        format.html { redirect_to(avatars_path) }
+        format.xml  { render :xml => @avatar, :status => :created, :location => @article }
+        format.fxml  { render :fxml => @avatar.to_fxml(:methods => [:attachment_url]) }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @avatar.errors, :status => :unprocessable_entity }
+        format.fxml  { render :fxml => @avatar.errors }
+      end
     end
   end
   
