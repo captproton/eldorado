@@ -16,6 +16,7 @@ Rails::Initializer.run do |config|
   config.gem 'right_aws', :version => '1.9.0' # TODO change to aws-s3 when paperclip does; right_aws 1.10.0 acts funny
   config.gem 'right_http_connection', :version => '1.2.4'
   config.gem 'captproton-restfulx', :version => '1.2.3', :lib => 'restfulx', :source => 'http://gems.github.com'
+  config.gem "mbleigh-acts-as-taggable-on", :source => "http://gems.github.com", :lib => "acts-as-taggable-on"
   
   
   # support yaml and heroku config
