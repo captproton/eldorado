@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090702030411) do
+ActiveRecord::Schema.define(:version => 20090808195424) do
 
   create_table "articles", :force => true do |t|
     t.integer  "user_id"
@@ -122,7 +122,7 @@ ActiveRecord::Schema.define(:version => 20090702030411) do
     t.string  "theme"
     t.string  "favicon"
     t.string  "time_zone"
-    t.boolean "hush_hush",           :default => false
+    t.boolean "hush_hush",         :default => false
     t.string  "login_message"
     t.string  "admin_only_create", :default => "",    :null => false
   end
@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(:version => 20090702030411) do
     t.integer  "last_post_id"
     t.datetime "last_post_at"
     t.integer  "last_post_by"
+    t.boolean  "private",      :default => false
     t.boolean  "locked",       :default => false
     t.boolean  "sticky",       :default => false
     t.integer  "forum_id"
