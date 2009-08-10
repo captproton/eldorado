@@ -26,8 +26,13 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :uploads
   map.resources :users, :member => {:admin => :post, :ban => :get, :remove_ban => :post, :confirm_delete => :get}, 
                         :has_many => [:articles, :posts]
-  
+
   map.flex 'flex', :controller => 'flex', :action => 'index'
+
+  map.spiel_index 'spiels/', :controller => 'spiels', :action => 'index'
+  map.spiel_show 'spiels/:id', :controller => 'spiels', :action => 'show'
+  ## map.spiel_show 'spiels/show', :controller => 'spiels', :action => 'show'
+
   map.search 'search', :controller => 'search', :action => 'index'
   map.refresh_chatters 'refresh_chatters', :controller => 'messages', :action => 'refresh_chatters'
   

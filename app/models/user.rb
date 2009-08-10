@@ -1,6 +1,7 @@
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
+    acts_as_tagger
     
   attr_accessible :login, :email, :password, :password_confirmation, :avatar, :signature, :bio, :time_zone
   attr_reader :password

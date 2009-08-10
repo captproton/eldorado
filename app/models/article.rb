@@ -1,5 +1,7 @@
 class Article < ActiveRecord::Base
   
+  acts_as_taggable_on :blogs, :stories, :interests #different categories of Articles.  Interests are just general tags
+  
   attr_accessible :title, :body
   
   belongs_to :user, :counter_cache => true

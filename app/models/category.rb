@@ -1,4 +1,5 @@
 class Category < ActiveRecord::Base
+  acts_as_taggable_on :spielman
   
   attr_accessible :name, :position
   

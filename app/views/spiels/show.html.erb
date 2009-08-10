@@ -1,0 +1,29 @@
+<h1>Spiels#show</h1>
+<p>Find me in app/views/spiels/show.html.erb</p>
+<h2><%= @tag.name %></h2>
+
+
+
+<div id="primary">
+  <% if !@spiel_articles.empty? %>
+    <% for article in @spiel_articles %>
+      <%= render :partial => 'articles/article', :object => article %>
+      <div class="comments-link detail">
+        <%= link_to pluralize(article.comments_count, 'Comments'), article_path(article, :anchor => 'comments'), :class => 'text' %>
+      </div>
+    <% end %>
+    <div class="info-left">
+      <span class="title">Looking for something?</span>&nbsp;
+      <span class="detail"><%= link_to 'Visit the Blog Archives &raquo;', blog_archives_path %></span>
+    </div>
+  <% else %>
+    <div class="info-left">
+      <div class="title article-title">No Articles Found</div>
+    </div>
+    <div class="clear"> </div>
+  <% end %>
+</div>
+<div id="secondary">
+  <%= render :partial => 'spiels/secondary'%>
+</div>
+

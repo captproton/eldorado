@@ -1,0 +1,14 @@
+<div id="primary">
+<h1>Spiels#index</h1>
+<p>Find me in app/views/spiels/index.html.erb</p>
+
+<% @spiels.each do |context| %>
+  <div id="week">
+    <h2><%= context.upcase %></h2>
+		
+    <%# render :partial => 'spiel', :collection => @spiels %>
+  </div>
+<% end %>
+
+</div>
+

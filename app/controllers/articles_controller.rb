@@ -6,6 +6,8 @@ class ArticlesController < ApplicationController
 
   def index
     @articles = @parent.get(params[:page])
+    @spiels = Tagging.find(:all, :select => "DISTINCT context").map(&:context)
+    
     
     respond_to do |format|
       format.html # index.html.erb

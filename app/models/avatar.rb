@@ -4,7 +4,7 @@ class Avatar < ActiveRecord::Base
   
   belongs_to :user
   belongs_to :current_avatar_user, :foreign_key => 'current_user_id', :class_name => 'User'
-  
+  acts_as_taggable_on :spielman
   if CONFIG['s3']
     has_attached_file :attachment, :storage => :s3, :path => "avatars/:filename",
                       :bucket => CONFIG['s3_bucket_name'], # TODO is there a way to share this between models?

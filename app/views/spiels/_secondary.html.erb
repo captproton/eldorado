@@ -1,0 +1,36 @@
+
+<% if @spiels %>
+  <ul class="secondary-list">
+    <% @spiels.each do |spiel| %>
+      <li><%= link_to spiel.name, :action => "show", :id => spiel.id %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<% 	@taggings = Tagging.all
+	prev_tag_context = ""
+ %>
+<% if !@taggings.blank? %>
+  <ul class="secondary-list">
+  	<% @taggings.each do |tagging| %>
+		<% unless tagging.context == prev_tag_context %>
+  			<li><h2><%= link_to tagging.context.capitalize, :action => "show", :id => tagging.id %></h2></li>
+			<% if !@spiels.blank? %>
+		  <ul class="secondary-list">
+		    <% @spiels.each do |spiel| %>
+		      <li><%= link_to spiel.name, :action => "show", :id => spiel.id %></li>
+		    <% end %>
+		  </ul>
+			<% else %>
+			  
+			<% end %>
+			
+		<% end %>
+		<% prev_tag_context = tagging.context %>
+	
+  	<% end %>
+  </ul>
+
+<% else %>
+  No Spiels
+<% end %>
