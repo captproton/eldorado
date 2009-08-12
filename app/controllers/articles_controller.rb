@@ -3,10 +3,11 @@ class ArticlesController < ApplicationController
   before_filter :find_parent_user_or_class, :only => [:index]
   before_filter :require_login, :except => [:index, :show, :archives]
   before_filter :can_edit, :only => [:edit, :update, :destroy]
+  before_filter :spiels, :only => [:index, :show]
 
   def index
-    @articles = @parent.get(params[:page])
-    @spiels = Tagging.find(:all, :select => "DISTINCT context").map(&:context)
+    @articles     = @parent.get(params[:page])
+    @spiel_types = Tagging.find(:all, :select => "DISTINCT context", :order=> 'context').map(&:context)
     
     
     respond_to do |format|
@@ -76,5 +77,21 @@ class ArticlesController < ApplicationController
   
   def archives
     @articles = Article.all(:order => 'created_at desc', :include => :user)
+  end
+  
+  private
+  
+  def spiels
+    @spiel_types = Tagging.find(:all, :select => "DISTINCT context")
+    @tagging = Tagging.find(params[:id])
+
+    @spiel_tags = Tagging.find(:all, :select => "DISTINCT tag_id, taggable_id", :conditions => ['context = ?', @tagging.context])
+    @spiel_tag  = Tagging.find(:first, :select => "DISTINCT tag_id, taggable_id", :conditions => ['context = ?', @tagging.context])
+    @spiel_tag_ids  = Tagging.find(:all, :select => "DISTINCT tag_id, taggable_id", :conditions => ['context = ?', @tagging.context]).map(&:taggable_id)
+    
+
+    
+    @articles = Article.find(:all , :conditions => { :id => @spiel_tag_ids}, :order => 'created_at DESC' )
+    
   end
 end

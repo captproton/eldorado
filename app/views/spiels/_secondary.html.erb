@@ -1,36 +1,18 @@
+<% if !@spiel_types.blank? %>
+  	<ul class="secondary-list">
+  		<% @spiel_types.each do |spiel_type| %>
+			<li><h2><%= spiel_type.context.capitalize %></h2></li>
 
-<% if @spiels %>
-  <ul class="secondary-list">
-    <% @spiels.each do |spiel| %>
-      <li><%= link_to spiel.name, :action => "show", :id => spiel.id %></li>
-    <% end %>
-  </ul>
-<% end %>
-
-<% 	@taggings = Tagging.all
-	prev_tag_context = ""
- %>
-<% if !@taggings.blank? %>
-  <ul class="secondary-list">
-  	<% @taggings.each do |tagging| %>
-		<% unless tagging.context == prev_tag_context %>
-  			<li><h2><%= link_to tagging.context.capitalize, :action => "show", :id => tagging.id %></h2></li>
-			<% if !@spiels.blank? %>
-		  <ul class="secondary-list">
-		    <% @spiels.each do |spiel| %>
-		      <li><%= link_to spiel.name, :action => "show", :id => spiel.id %></li>
-		    <% end %>
-		  </ul>
-			<% else %>
-			  
+			<% @spiel_tags_listing = Tagging.find(:all, :select => "id, tag_id", :group => "tag_id", :conditions => ['context = ?', spiel_type.context]) %>
+			<% @spiel_tags_listing.each do |spiel_tag| %>
+			<li>				
+				<%= link_to spiel_tag.tag.name, :controller => "spiels", :action => "show", :id => spiel_tag.id %>
+			</li>	
 			<% end %>
-			
 		<% end %>
-		<% prev_tag_context = tagging.context %>
-	
-  	<% end %>
-  </ul>
-
 <% else %>
-  No Spiels
+	<li>No Results</li>
+			
+	
 <% end %>
+  </ul>

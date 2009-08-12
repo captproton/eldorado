@@ -6,10 +6,16 @@ class SpielsController < ApplicationController
   end
 
   def show 
-    @spiels = Article.tag_counts_on(:stories)   
-    @tag = Tag.find(params[:id])
-    @spiel_articles = Article.tagged_with(@tag.name, :on => :stories)
+    @spiel_types = Tagging.find(:all, :select => "DISTINCT context")
+    @tagging = Tagging.find(params[:id])
+
+    @spiel_tags = Tagging.find(:all, :select => "DISTINCT tag_id, taggable_id", :conditions => ['context = ?', @tagging.context])
+    @spiel_tag  = Tagging.find(:first, :select => "DISTINCT tag_id, taggable_id", :conditions => ['context = ?', @tagging.context])
+    @spiel_tag_ids  = Tagging.find(:all, :select => "DISTINCT tag_id, taggable_id", :conditions => ['context = ?', @tagging.context]).map(&:taggable_id)
     
+
+    
+    @articles = Article.find(:all , :conditions => { :id => @spiel_tag_ids}, :order => 'created_at DESC' )
     
   end
 
@@ -27,5 +33,6 @@ class SpielsController < ApplicationController
 
   def destroy
   end
+  
 
 end

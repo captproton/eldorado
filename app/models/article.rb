@@ -21,4 +21,7 @@ class Article < ActiveRecord::Base
     "#{id}-#{to_s.parameterize}"
   end
   
+  def spiel_tag(spiel_type)
+    Tagging.find(:all, :conditions => ['context = ?', spiel_type])
+  end
 end
