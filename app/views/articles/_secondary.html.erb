@@ -18,22 +18,3 @@
     <li class="detail"><%= link_to 'Blog Archives &raquo;', blog_archives_path, :class => 'text' %></li>
   </ul>
 <% end %>
-
-<% if !@spiel_types.blank? %>
-  	<ul class="secondary-list">
-  		<% @spiel_types.each do |spiel_type| %>
-			<li><h2><%= spiel_type.context.capitalize %></h2></li>
-
-			<% @spiel_tags_listing = Tagging.find(:all, :select => "id, tag_id", :group => "tag_id", :conditions => ['context = ?', spiel_type.context]) %>
-			<% @spiel_tags_listing.each do |spiel_tag| %>
-			<li>				
-				<%= link_to spiel_tag.tag.name, :controller => "spiels", :action => "show", :id => spiel_tag.id %>
-			</li>	
-			<% end %>
-		<% end %>
-<% else %>
-	<li>No Results</li>
-			
-	
-<% end %>
-  </ul>

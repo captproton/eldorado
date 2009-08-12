@@ -3,7 +3,7 @@ class ArticlesController < ApplicationController
   before_filter :find_parent_user_or_class, :only => [:index]
   before_filter :require_login, :except => [:index, :show, :archives]
   before_filter :can_edit, :only => [:edit, :update, :destroy]
-  before_filter :spiels, :only => [:index, :show]
+  ## before_filter :spiels, :only => [:index, :show] #buggy for articles, but not speils controller
 
   def index
     @articles     = @parent.get(params[:page])
@@ -91,7 +91,7 @@ class ArticlesController < ApplicationController
     
 
     
-    @articles = Article.find(:all , :conditions => { :id => @spiel_tag_ids}, :order => 'created_at DESC' )
+    ##@articles = Article.find(:all , :conditions => { :id => @spiel_tag_ids}, :order => 'created_at DESC' )
     
   end
 end
