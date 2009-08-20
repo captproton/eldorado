@@ -8,6 +8,27 @@
   </ul>
 <% end %>
 
+
+<ul>
+	<%- @spiel_tags.each do |spiel_tag|	-%>
+		<%- if @previous_context == spiel_tag.context -%>
+
+			<li><%= render :partial => "spiel_tag", :object => spiel_tag %></li>
+
+		<%- else -%>
+			</ul><ul>
+			<li><h2><%= spiel_tag.context %></h2></li>
+			<li><%= render :partial => "spiel_tag", :object => spiel_tag %></li>
+
+		<%- end -%> 
+
+	<%- @previous_context = spiel_tag.context -%>
+		
+	<%- end -%>
+	
+	
+</ul>
+
 <% @recent_articles = Article.get %>
 <% if @recent_articles %>
   <div class="title"><%= link_to 'Recent Articles', blog_path %></div>

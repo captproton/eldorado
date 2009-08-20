@@ -6,7 +6,12 @@ class ArticlesController < ApplicationController
   ## before_filter :spiels, :only => [:index, :show] #buggy for articles, but not speils controller
 
   def index
-    @articles     = @parent.get(params[:page])
+    spiels
+    
+    @articles     = Article.find(:all , :conditions => { :id => @spiel_tag_ids}, :order => 'created_at DESC' )
+    ## Article.find(:all, :conditions => ["id IN (?)", @spiel_tag_ids])
+    
+    ## @articles     = @parent.get(params[:page])
     @spiel_types = Tagging.find(:all, :select => "DISTINCT context", :order=> 'context').map(&:context)
     
     
@@ -20,6 +25,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
+    spiels
     @article = Article.find(params[:id])
     @comments = @article.comments(:include => :user)
     
@@ -82,14 +88,10 @@ class ArticlesController < ApplicationController
   private
   
   def spiels
-    @spiel_types = Tagging.find(:all, :select => "DISTINCT context")
-    @tagging = Tagging.find(params[:id])
 
-    @spiel_tags = Tagging.find(:all, :select => "DISTINCT tag_id, taggable_id", :conditions => ['context = ?', @tagging.context])
-    @spiel_tag  = Tagging.find(:first, :select => "DISTINCT tag_id, taggable_id", :conditions => ['context = ?', @tagging.context])
-    @spiel_tag_ids  = Tagging.find(:all, :select => "DISTINCT tag_id, taggable_id", :conditions => ['context = ?', @tagging.context]).map(&:taggable_id)
+    @spiel_tags = Tagging.find(:all, :select => "id, tag_id, context", :group => "tag_id", :order => 'context')
+    @spiel_tag_ids  = Tagging.find(:all, :select => "DISTINCT tag_id, taggable_id", :conditions => ['tag_id = ?', params[:tag_id]]).map(&:taggable_id)
     
-
     
     ##@articles = Article.find(:all , :conditions => { :id => @spiel_tag_ids}, :order => 'created_at DESC' )
     
