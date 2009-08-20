@@ -89,7 +89,8 @@ class ArticlesController < ApplicationController
   
   def spiels
 
-    @spiel_tags = Tagging.find(:all, :select => "id, tag_id, context", :group => "tag_id", :order => 'context')
+    @spiel_tags = Tagging.find(:all, :select => "taggings.tag_id,taggings.context", :group => "taggings.tag_id, taggings.context", :order => 'taggings.context')
+    
     @spiel_tag_ids  = Tagging.find(:all, :select => "DISTINCT tag_id, taggable_id", :conditions => ['tag_id = ?', params[:tag_id]]).map(&:taggable_id)
     
     
