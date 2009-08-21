@@ -1,6 +1,7 @@
 class SearchController < ApplicationController
     
   def index
+    spiels
     if params[:type].blank? || params[:query].blank?
       render :template => 'search/index'
     elsif params[:type] == 'articles'
@@ -31,5 +32,16 @@ class SearchController < ApplicationController
       @users = User.paginate(:page => params[:page], :order => 'created_at desc', :conditions => ['login LIKE ?', '%' + params[:query] + '%'])        
       render :template => 'users/index'
     end
+    
   end  
+  private
+  
+  def spiels
+
+    @spiel_tags = Tagging.find(:all, :select => "taggings.tag_id,taggings.context", :group => "taggings.tag_id, taggings.context", :order => 'taggings.context')
+    
+    @spiel_tag_ids  = Tagging.find(:all, :select => "DISTINCT tag_id, taggable_id", :conditions => ['tag_id = ?', params[:tag_id]]).map(&:taggable_id)
+        
+  end
+  
 end

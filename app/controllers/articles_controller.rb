@@ -85,6 +85,7 @@ class ArticlesController < ApplicationController
   end
   
   def archives
+    spiels
     @articles = Article.all(:order => 'created_at desc', :include => :user)
   end
   
@@ -95,9 +96,6 @@ class ArticlesController < ApplicationController
     @spiel_tags = Tagging.find(:all, :select => "taggings.tag_id,taggings.context", :group => "taggings.tag_id, taggings.context", :order => 'taggings.context')
     
     @spiel_tag_ids  = Tagging.find(:all, :select => "DISTINCT tag_id, taggable_id", :conditions => ['tag_id = ?', params[:tag_id]]).map(&:taggable_id)
-    
-    
-    ##@articles = Article.find(:all , :conditions => { :id => @spiel_tag_ids}, :order => 'created_at DESC' )
-    
+        
   end
 end
