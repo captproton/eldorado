@@ -5,6 +5,22 @@
     </div>
     <div class="clear"> </div>
   <% end %>
+
+	<%- if params[:context] -%>
+		<ul>
+		<li><h2><%= params[:context] %></h2></li>
+		<%- if params[:tagname] -%>
+			<li><%= link_to params[:tagname].upcase, :controller => "articles", 
+			:action => "index", :tag_id => params[:tag_id], 
+			:tagname => params[:tag_id], :context => params[:context] %>
+			</li>
+			
+		<%- end -%>
+		
+		</ul>
+
+		
+	<%- end -%>
   <% if !@articles.empty? %>
     <% for article in @articles %>
       <%= render :partial => 'articles/article', :object => article %>

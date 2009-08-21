@@ -7,8 +7,11 @@ class ArticlesController < ApplicationController
 
   def index
     spiels
-    
-    @articles     = Article.find(:all , :conditions => { :id => @spiel_tag_ids}, :order => 'created_at DESC' )
+    if params[:tag_id]
+      @articles     = Article.find(:all , :conditions => { :id => @spiel_tag_ids}, :order => 'created_at DESC' )      
+    else
+      @articles     = @parent.get(params[:page])
+    end
     ## Article.find(:all, :conditions => ["id IN (?)", @spiel_tag_ids])
     
     ## @articles     = @parent.get(params[:page])
