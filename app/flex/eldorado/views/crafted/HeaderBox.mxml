@@ -39,7 +39,6 @@
       header.attachmentFileSize = int(attachmentFileSizeTextInput.text);
       header.attachmentRemoteUrl = attachmentRemoteUrlTextInput.text;
   
-      header.user = User(userComboBox.selectedItem);
       header.attachment = file;
     }
    
@@ -125,12 +124,6 @@
         <mx:Button label="Browse…" id="fileBrowseButton" click="chooseFile()"/>
         <mx:Label text="{fileName}" maxWidth="190"/>
         <mx:Image source="{header.attachmentUrl}"/>
-      </mx:FormItem>
-      <mx:FormItem label="User" width="100%">
-        <mx:ComboBox id="userComboBox" width="200"
-          labelField="{User.LABEL}"
-          dataProvider="{Rx.models.index(User)}" prompt="User ..."
-          selectedItem="{header.user}"/>
       </mx:FormItem>
     </mx:Form>
     <mx:ControlBar width="100%">

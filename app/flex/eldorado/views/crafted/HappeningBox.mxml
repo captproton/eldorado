@@ -30,7 +30,6 @@
       happening.date = dateDateTimeTextInput.date;
       happening.reminder = reminderCheckBox.selected;
   
-      happening.user = User(userComboBox.selectedItem);
     }
    
     private function destroyHappening():void {
@@ -80,12 +79,6 @@
       </mx:FormItem>
       <mx:FormItem label="Reminder" width="100%">
         <mx:CheckBox id="reminderCheckBox" selected="{happening.reminder}"/>
-      </mx:FormItem>
-      <mx:FormItem label="User" width="100%">
-        <mx:ComboBox id="userComboBox" width="200"
-          labelField="{User.LABEL}"
-          dataProvider="{Rx.models.index(User)}" prompt="User ..."
-          selectedItem="{happening.user}"/>
       </mx:FormItem>
     </mx:Form>
     <mx:ControlBar width="100%">

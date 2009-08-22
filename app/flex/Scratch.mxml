@@ -3,6 +3,7 @@
   xmlns:generated="eldorado.views.generated.*"
   xmlns:crafted="eldorado.views.crafted.*"
   paddingBottom="8" paddingLeft="8" paddingRight="8" paddingTop="8"
+   height="700" width="994"
   layout="vertical" styleName="plain" initialize="init()">
   <mx:Script>
     <![CDATA[
@@ -14,7 +15,7 @@
       }
     ]]>
   </mx:Script>
-  <mx:VBox width="95%" borderColor="0xACACAC" borderThickness="1" borderStyle="solid" horizontalAlign="center"
+  <mx:VBox width="90%" borderColor="0xACACAC" borderThickness="1" borderStyle="solid" horizontalAlign="center"
              paddingTop="5" paddingRight="5" paddingBottom="5" paddingLeft="5">
       <mx:Image id="loadedImage" source="http://farm3.static.flickr.com/2472/3790267581_b6abbc180f.jpg" horizontalAlign="center" />
       <mx:Text color="0x323232" text="CC credit http://www.flickr.com/photos/lierne/3790267581/" />

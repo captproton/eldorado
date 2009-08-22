@@ -29,7 +29,6 @@
       article.body = bodyTextArea.text;
       article.commentsCount = int(commentsCountTextInput.text);
   
-      article.user = User(userComboBox.selectedItem);
     }
    
     private function destroyArticle():void {
@@ -76,12 +75,6 @@
       </mx:FormItem>
       <mx:FormItem label="CommentsCount" width="100%">
         <mx:TextInput id="commentsCountTextInput" width="100%" text="{article.commentsCount}"/>
-      </mx:FormItem>
-      <mx:FormItem label="User" width="100%">
-        <mx:ComboBox id="userComboBox" width="200"
-          labelField="{User.LABEL}"
-          dataProvider="{Rx.models.index(User)}" prompt="User ..."
-          selectedItem="{article.user}"/>
       </mx:FormItem>
     </mx:Form>
     <mx:ControlBar width="100%">

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
   xmlns:generated="eldorado.views.generated.*"
+  xmlns:crafted="eldorado.views.crafted.*"
   paddingBottom="8" paddingLeft="8" paddingRight="8" paddingTop="8"
   layout="horizontal" styleName="plain" initialize="init()">
   <mx:Script>
@@ -16,24 +17,15 @@
   <mx:LinkBar dataProvider="{mainViewStack}" direction="vertical" borderStyle="solid" backgroundColor="#EEEEEE"/>
   <mx:ViewStack id="mainViewStack" width="100%" height="100%">
     <!-- For a simple demo, put all the components here. -->
-    <generated:ArticleBox/>
-    <generated:AvatarBox/>
-    <generated:CategoryBox/>
-    <generated:CommentBox/>
-    <generated:ConfigBox/>
-    <generated:ForumBox/>
-    <generated:HappeningBox/>
-    <generated:HeaderBox/>
-    <generated:LoggedExceptionBox/>
-    <generated:MessageBox/>
-    <generated:PostBox/>
-    <generated:RankBox/>
-    <generated:SettingBox/>
-    <generated:SubscriptionBox/>
-    <generated:ThemeBox/>
-    <generated:TopicBox/>
-    <generated:UploadBox/>
-    <generated:UserBox/>
-    <generated:ViewingBox/>
+    <crafted:ArticleBox/>
+    <crafted:AvatarBox/>
+    <crafted:CategoryBox/>
+    <crafted:CommentBox/>
+    <crafted:ConfigBox/>
+    <crafted:ForumBox/>
+    <crafted:HappeningBox/>
+    <crafted:HeaderBox/>
+    <crafted:TopicBox/>
+    <crafted:UploadBox/>
   </mx:ViewStack>
 </mx:Application>

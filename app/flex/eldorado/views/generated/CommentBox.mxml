@@ -73,12 +73,6 @@
       <mx:FormItem label="Body" width="100%">
         <mx:TextArea id="bodyTextArea" width="100%" height="200" text="{comment.body}"/>
       </mx:FormItem>
-      <mx:FormItem label="User" width="100%">
-        <mx:ComboBox id="userComboBox" width="200"
-          labelField="{User.LABEL}"
-          dataProvider="{Rx.models.index(User)}" prompt="User ..."
-          selectedItem="{comment.user}"/>
-      </mx:FormItem>
     </mx:Form>
     <mx:ControlBar width="100%">
       <mx:Button label="Save Comment" width="50%" height="30"
