@@ -231,7 +231,7 @@ class UsersControllerTest < ActionController::TestCase
   def test_should_not_error_if_trying_to_log_in_when_logged_in_already
     login_as :trevor
     post :login, :user => {:login => 'trevor', :password => 'test'}
-    assert_redirected_to root_path
+    assert_redirected_to home_path
   end
   
   def test_should_not_error_if_trying_to_logout_in_when_not_logged_in

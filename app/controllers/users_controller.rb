@@ -39,13 +39,22 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    @user.update_attributes(params[:user])
     @user.profile_updated_at = Time.now.utc
-    if @user.save
-      redirect_to @user
-    else
-      render :action => "edit"
+    
+    respond_to do |format|
+      if @user.update_attributes(params[:user])
+        flash[:notice] = 'User was successfully updated.'
+        format.html { redirect_to(@user) }
+        format.xml  { head :ok }
+        format.fxml  { render :fxml => @user }
+        
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+        format.fxml  { render :fxml => @user.errors }
+      end
     end
+    
   end
   
   def destroy
@@ -80,7 +89,7 @@ class UsersController < ApplicationController
   end
     
   def login
-    redirect_to root_path and return false if logged_in?
+    redirect_to home_path and return false if logged_in?
     if request.post?
       @user = User.authenticate(params[:user][:login], params[:user][:password]) unless params[:user].blank?
       if @user
@@ -105,7 +114,17 @@ class UsersController < ApplicationController
     cookies.delete :auth_token
     reset_session
     flash[:notice] = @flash
-    redirect_to login_path
+    
+    respond_to do |format|
+      format.html do
+        flash[:notice] = "You have been logged out."
+        redirect_to login_path
+        
+      end
+      format.fxml { render :text => "loggedout" }
+      format.xml { render :text => "loggedout" }
+    end
+    
   end
     
   protected
@@ -120,6 +139,19 @@ class UsersController < ApplicationController
     user.auth_token_exp = 2.weeks.from_now
     cookies[:auth_token] = { :value => user.auth_token, :expires => user.auth_token_exp }
     user.save!
-    redirect_to root_path
+    
+    respond_to do |format|
+      format.html do
+        redirect_to root_path
+        flash[:notice] = "Logged in successfully"
+      end
+      format.fxml do
+        render :fxml => user.to_fxml
+      end
+      format.xml do 
+        render :xml => account.user.to_xml
+      end
+    end
+    
   end
 end

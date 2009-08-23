@@ -20,11 +20,9 @@
     <generated:AvatarBox/>
     <generated:CategoryBox/>
     <generated:CommentBox/>
-    <generated:ConfigBox/>
     <generated:ForumBox/>
     <generated:HappeningBox/>
     <generated:HeaderBox/>
-    <generated:LoggedExceptionBox/>
     <generated:MessageBox/>
     <generated:PostBox/>
     <generated:RankBox/>
@@ -34,6 +32,5 @@
     <generated:TopicBox/>
     <generated:UploadBox/>
     <generated:UserBox/>
-    <generated:ViewingBox/>
   </mx:ViewStack>
 </mx:Application>
