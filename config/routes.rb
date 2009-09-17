@@ -6,7 +6,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :configs
 
   
-  map.root :controller => 'flex'
+  map.root :controller => 'home'
   
   map.resources :articles
   map.resources :avatars, :member => {:select => :post, :deselect => :post}
