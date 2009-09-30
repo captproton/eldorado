@@ -34,6 +34,6 @@ class Article < ActiveRecord::Base
   end
   
   def self.tags_of_a_context(context)
-    tags = Tagging.find(:all, :conditions => ["context = ?", context ])
+    tags = Tagging.find(:all, :conditions => ["context = ?", context ], :select => "DISTINCT tag_id")
   end
 end
