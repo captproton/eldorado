@@ -10,19 +10,27 @@
 
 
 <ul>
-	<%- @spiel_tags.each do |spiel_tag|	-%>
-		<%- if @previous_context == spiel_tag.context -%>
+	<%- Article.tagging_contexts.each do |spiel_tag|	-%>
+		<%# if @previous_context == spiel_tag.context %>
 
-			<li><%= render :partial => "articles/spiel_tag", :object => spiel_tag %></li>
+	<li><h2><%= spiel_tag.context %></h2></li>
+	<li>
+		<ul>
+			<% Article.tags_of_a_context(spiel_tag.context).each do |tagging| %>				
+				<li>
+					<%= link_to tagging.tag.name.pluralize.capitalize, '/blogs/' + tagging.tag.name.pluralize %>
+				</li>
+			<% end %>
+		</ul>
+		<%# render :partial => "articles/spiel_tag", :object => spiel_tag %>
+		<%# render :partial => "articles/spiel_tag", :collection => Article.tags_of_a_context(spiel_tag) %>
+	</li>
+			
+		<%# else %>
 
-		<%- else -%>
-			</ul><ul>
-			<li><h2><%= spiel_tag.context %></h2></li>
-			<li><%= render :partial => "articles/spiel_tag", :object => spiel_tag %></li>
+		<%# end %> 
 
-		<%- end -%> 
-
-	<%- @previous_context = spiel_tag.context -%>
+	<%# @previous_context = spiel_tag.context %>
 		
 	<%- end -%>
 	

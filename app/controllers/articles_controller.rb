@@ -7,8 +7,9 @@ class ArticlesController < ApplicationController
 
   def index
     spiels
-    if params[:tag_id]
-      @articles     = Article.find(:all , :conditions => { :id => @spiel_tag_ids}, :order => 'created_at DESC' )      
+    contextual_tag = params[:spiel_tag].singularize if params[:spiel_tag]
+    if params[:spiel_tag]
+      @articles     = Article.find_within_context(contextual_tag, 'blogs')      
     else
       @articles     = @parent.get(params[:page])
     end
@@ -54,10 +55,13 @@ class ArticlesController < ApplicationController
 
   def create
     @article = current_user.articles.new(params[:article])
+    @article.blog_list      = params[:article][:blog_list]
+    @article.story_list     = params[:article][:story_list]
+    @article.interest_list  = params[:article][:interest_list]
     
     respond_to do |format|
       if @article.save
-        flash[:notice] = 'Address was successfully created.'
+        flash[:notice] = 'Article was successfully created.'
         format.html { redirect_to(@article) }
         format.xml  { render :xml => @article, :status => :created, :location => @article }
         format.fxml  { render :fxml => @article.to_fxml(:methods => [:attachment_url]) }
@@ -71,6 +75,11 @@ class ArticlesController < ApplicationController
 
   def update
     @article = Article.find(params[:id])
+    @article = current_user.articles.new(params[:article])
+    @article.blog_list      = params[:article][:blog_list]
+    @article.story_list     = params[:article][:story_list]
+    @article.interest_list  = params[:article][:interest_list]
+    
     if @article.update_attributes(params[:article])
       redirect_to(@article)
     else

@@ -24,4 +24,16 @@ class Article < ActiveRecord::Base
   def spiel_tag(spiel_type)
     Tagging.find(:all, :conditions => ['context = ?', spiel_type])
   end
+  
+  def self.find_within_context(tag_list, context)
+    self.tagged_with(tag_list, :on => context.to_sym)
+  end
+  
+  def self.tagging_contexts
+    tagging_contexts = Tagging.find(:all, :select => "DISTINCT context")
+  end
+  
+  def self.tags_of_a_context(context)
+    tags = Tagging.find(:all, :conditions => ["context = ?", context ])
+  end
 end

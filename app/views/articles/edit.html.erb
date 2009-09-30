@@ -4,6 +4,8 @@
     <span class="top">Edit Article</span>
     <p class="label"><label for="article_title">Title</label></p>
     <p><%= f.text_field :title, :class => 'text-field' %></p>
+	<p class="label"><label for="blog_list">Blog Type</label></p>
+	<p><%= f.select :blog_list, ['preview', 'postview', 'development', 'news'] %></p>
     <p class="label"><label for="article_body">Body</label></p>
     <p><%= f.text_area :body, :rows => '10', :class => 'text-field' %></p>
     <p>

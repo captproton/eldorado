@@ -42,6 +42,9 @@ ActionController::Routing::Routes.draw do |map|
   
   map.admin 'admin', :controller => 'settings', :action => 'index'
   map.blog 'blog', :controller => 'articles', :action => 'index'
+  map.blogs 'blogs/:spiel_tag', :controller => 'articles', :action => 'index'
+  map.blogs 'stories/:spiel_tag', :controller => 'articles', :action => 'index'
+  
   map.blog_archives 'blog/archives', :controller => 'articles', :action => 'archives'
   map.chat 'chat', :controller => 'messages', :action => 'index'
   map.files 'files', :controller => 'uploads', :action => 'index'

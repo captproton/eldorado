@@ -43,7 +43,7 @@ class TopicsController < ApplicationController
     
     respond_to do |format|
       if @topic.save && @post.save
-        flash[:notice] = 'Address was successfully created.'
+        flash[:notice] = 'Topic was successfully created.'
         format.html { redirect_to(@topic) }
         format.xml  { render :xml => @topic, :status => :created, :location => @topic }
         format.fxml  { render :fxml => @topic }
