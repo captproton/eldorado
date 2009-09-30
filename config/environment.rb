@@ -17,6 +17,7 @@ Rails::Initializer.run do |config|
   config.gem 'right_http_connection', :version => '1.2.4'
   config.gem 'captproton-restfulx', :version => '1.2.3', :lib => 'restfulx', :source => 'http://gems.github.com'
   config.gem "mbleigh-acts-as-taggable-on", :source => "http://gems.github.com", :lib => "acts-as-taggable-on"
+  config.gem "redgreen"
   
   
   # support yaml and heroku config

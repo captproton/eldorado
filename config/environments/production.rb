@@ -8,7 +8,7 @@ config.after_initialize do
   require 'application_controller' unless Object.const_defined?(:ApplicationController)
   LoggedExceptionsController.class_eval do
     session :session_key => '_eldorado_session_id'
-    self.application_name = "El Dorado"
+    self.application_name = "Fogbound Pictures"
     include AuthenticationSystem
     before_filter :require_admin
   end
